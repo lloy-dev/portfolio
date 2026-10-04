@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Skeleton, Stack, Typography } from "@mui/material";
+import { Skeleton, Stack, Tooltip, Typography } from "@mui/material";
 import {
   GitHub as GitHubIcon,
   LinkedIn as LinkedInIcon,
@@ -56,9 +56,24 @@ const Component = ({
   location,
 }: Props) => {
   const [profilePicLoading, setProfilePicLoading] = useState(true);
+  const [isShowEmail, setIsShowEmail] = useState(false);
+  const [isShowEmailTooltip, setIsShowEmailTooltip] = useState(false);
 
   const handleProfilePicLoad = () => {
     setProfilePicLoading(false);
+  };
+
+  const handleClickEmail = () => {
+    if (email) {
+      navigator.clipboard.writeText(email);
+      setIsShowEmailTooltip(true);
+    }
+  };
+
+  const handleCloseEmailTooltip = () => {
+    setTimeout(() => {
+      setIsShowEmailTooltip(false);
+    }, 200);
   };
 
   return (
@@ -162,10 +177,42 @@ const Component = ({
         </Stack>
         <Stack gap="20px">
           {!!email && (
-            <InfoLink href={`mailto:${email}`}>
-              <EmailIcon />
-              <Typography>{email}</Typography>
-            </InfoLink>
+            <>
+              {isShowEmail ? (
+                <Tooltip
+                  className="link-clickable"
+                  title={isShowEmailTooltip ? "Copied!" : "Click to copy"}
+                  onClose={handleCloseEmailTooltip}
+                  slotProps={{
+                    popper: {
+                      modifiers: [
+                        {
+                          name: "offset",
+                          options: {
+                            offset: [0, -8],
+                          },
+                        },
+                      ],
+                    },
+                  }}
+                  leaveDelay={isShowEmailTooltip ? 500 : undefined}
+                  arrow
+                >
+                  <InfoLink onClick={handleClickEmail}>
+                    <EmailIcon />
+                    <Typography>{email}</Typography>
+                  </InfoLink>
+                </Tooltip>
+              ) : (
+                <InfoLink
+                  className="link-clickable"
+                  onClick={() => setIsShowEmail(true)}
+                >
+                  <EmailIcon />
+                  <Typography>[Click to show]</Typography>
+                </InfoLink>
+              )}
+            </>
           )}
           {!!phone && (
             <InfoLink>

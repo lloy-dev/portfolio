@@ -1,4 +1,5 @@
-import { Card, CardContent, Typography, Link } from "@mui/material";
+import { useState } from "react";
+import { Card, CardContent, Typography, Link, Tooltip } from "@mui/material";
 import { Email as EmailIcon } from "@mui/icons-material";
 import { CommonLayout, ContactForm } from "@components";
 import type { ICreateMessageInput } from "@domain";
@@ -10,6 +11,9 @@ import useGetContact from "./api/useGetContact";
 import useCreateMessage from "./api/useCreateMessage";
 
 const ContactPage = () => {
+  const [isShowEmail, setIsShowEmail] = useState(false);
+  const [isShowEmailTooltip, setIsShowEmailTooltip] = useState(false);
+
   const { portfolioDetailsQuery } = useGetContact();
   const { data: portfolioDetailsData, isPending: portfolioDetailsIsPending } =
     portfolioDetailsQuery;
@@ -19,9 +23,24 @@ const ContactPage = () => {
     status: createMessageStatus,
   } = useCreateMessage();
 
+  const email = portfolioDetailsData?.email;
+
   const handleMessageSubmitValid = (data: ICreateMessageInput) => {
     const { name, email, message } = data;
     createMessageMutate({ name, email, message });
+  };
+
+  const handleClickEmail = () => {
+    if (email) {
+      navigator.clipboard.writeText(email);
+      setIsShowEmailTooltip(true);
+    }
+  };
+
+  const handleCloseEmailTooltip = () => {
+    setTimeout(() => {
+      setIsShowEmailTooltip(false);
+    }, 200);
   };
 
   return (
@@ -49,9 +68,36 @@ const ContactPage = () => {
               {!!portfolioDetailsData?.email && (
                 <Typography className="contact-details-item">
                   <EmailIcon />
-                  <Link href={`mailto:${portfolioDetailsData?.email}`}>
-                    {portfolioDetailsData?.email}
-                  </Link>
+                  {isShowEmail ? (
+                    <Tooltip
+                      className="link-clickable"
+                      title={isShowEmailTooltip ? "Copied!" : "Click to copy"}
+                      onClose={handleCloseEmailTooltip}
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -8],
+                              },
+                            },
+                          ],
+                        },
+                      }}
+                      leaveDelay={isShowEmailTooltip ? 500 : undefined}
+                      arrow
+                    >
+                      <Link onClick={handleClickEmail}>{email}</Link>
+                    </Tooltip>
+                  ) : (
+                    <Link
+                      className="link-clickable"
+                      onClick={() => setIsShowEmail(true)}
+                    >
+                      [click to show]
+                    </Link>
+                  )}
                 </Typography>
               )}
             </ContactDetailsContainer>
