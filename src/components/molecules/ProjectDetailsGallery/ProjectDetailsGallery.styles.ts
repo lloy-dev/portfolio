@@ -2,7 +2,8 @@ import { styled, Stack } from "@mui/material";
 
 const Container = styled(Stack)(({ theme }) => ({
   gap: 20,
-  overflow: "scroll",
+  overflowX: "auto",
+  overflowY: "hidden",
 
   img: {
     height: 141,

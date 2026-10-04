@@ -57,6 +57,10 @@ const ContentContainer = styled(Box)(({ theme }) => ({
 
 const ContactDetailsContainer = styled(Box)(() => ({
   padding: "15px 20px",
+
+  "a.link-clickable": {
+    cursor: "pointer",
+  },
 }));
 
 export { ContentContainer, ContactDetailsContainer };
