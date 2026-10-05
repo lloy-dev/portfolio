@@ -209,7 +209,7 @@ const Component = ({
                   onClick={() => setIsShowEmail(true)}
                 >
                   <EmailIcon />
-                  <Typography>[Click to show]</Typography>
+                  <Typography>[click to show]</Typography>
                 </InfoLink>
               )}
             </>
