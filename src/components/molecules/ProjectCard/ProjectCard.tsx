@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CardMedia,
   CardContent,
@@ -5,6 +6,7 @@ import {
   CardActions,
   Stack,
   Skeleton,
+  Tooltip,
 } from "@mui/material";
 import {
   Favorite as FavoriteIcon,
@@ -47,8 +49,17 @@ const Component = ({
   const splittedTitle = title?.split(" ") ?? [];
   const titleMoreThan2Words = splittedTitle.length > 1;
 
+  const [isShowLikeTooltip, setIsShowLikeTooltip] = useState(false);
+
   const handleLikeClick = () => {
-    if (onLikeClick) onLikeClick(id);
+    if (onLikeClick) {
+      onLikeClick(id);
+      setIsShowLikeTooltip(true);
+    }
+  };
+
+  const handleLikeTooltipClose = () => {
+    setIsShowLikeTooltip(false);
   };
 
   return (
@@ -93,14 +104,22 @@ const Component = ({
         ) : (
           <>
             <Stack className="project-card-like-container">
-              <IconButton
-                className={isLiked ? "liked" : undefined}
-                onClick={isLiked ? undefined : handleLikeClick}
-                disableRipple={isLiked}
-                disableFocusRipple={isLiked}
+              <Tooltip
+                open={isShowLikeTooltip}
+                title="Thanks!"
+                placement="top"
+                onClose={handleLikeTooltipClose}
+                leaveDelay={1000}
               >
-                <FavoriteIcon />
-              </IconButton>
+                <IconButton
+                  className={isLiked ? "liked" : undefined}
+                  onClick={isLiked ? undefined : handleLikeClick}
+                  disableRipple={isLiked}
+                  disableFocusRipple={isLiked}
+                >
+                  <FavoriteIcon />
+                </IconButton>
+              </Tooltip>
               <Typography variant="caption">{likes}</Typography>
             </Stack>
             {!!onActionClick && (

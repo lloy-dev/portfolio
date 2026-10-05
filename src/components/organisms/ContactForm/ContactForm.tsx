@@ -7,6 +7,7 @@ import { Button } from "@components";
 import type { ICreateMessageInput } from "@domain";
 import { Container } from "./ContactForm.styles";
 import { contactFormSchema } from "./ContactForm.validations";
+import { STRG_HAS_SUBMITTED_MESSAGE } from "@constants";
 
 type Props = {
   onSubmitValid: (data: ICreateMessageInput) => void;
@@ -20,6 +21,18 @@ const Component = ({
   isSendLoading = false,
 }: Props) => {
   const [successButton, setSuccessButton] = useState(false);
+  const [hasSubmittedMessage, setHasSubmittedMessage] = useState<boolean>(
+    () => {
+      const cachedHasSubmittedMessage = localStorage.getItem(
+        STRG_HAS_SUBMITTED_MESSAGE,
+      );
+      if (cachedHasSubmittedMessage) {
+        const parsed: boolean = JSON.parse(cachedHasSubmittedMessage);
+        return parsed;
+      }
+      return false;
+    },
+  );
 
   const defaultValues = {
     name: "",
@@ -42,6 +55,8 @@ const Component = ({
   useEffect(() => {
     if (sendStatus === "success") {
       setSuccessButton(true);
+      setHasSubmittedMessage(true);
+      localStorage.setItem(STRG_HAS_SUBMITTED_MESSAGE, JSON.stringify(true));
 
       setTimeout(() => {
         setSuccessButton(false);
@@ -64,6 +79,7 @@ const Component = ({
               label="Name"
               error={!!errors.name}
               helperText={errors.name?.message}
+              disabled={isSendLoading || hasSubmittedMessage}
               required
             />
           )}
@@ -77,6 +93,7 @@ const Component = ({
               label="Email (optional)"
               error={!!errors.email}
               helperText={errors.email?.message}
+              disabled={isSendLoading || hasSubmittedMessage}
             />
           )}
         />
@@ -88,8 +105,13 @@ const Component = ({
               {...field}
               label="Message"
               error={!!errors.message}
-              helperText={errors.message?.message}
+              helperText={
+                hasSubmittedMessage
+                  ? "You can only submit a message once."
+                  : errors.message?.message
+              }
               rows={3}
+              disabled={isSendLoading || hasSubmittedMessage}
               multiline
               required
             />
@@ -101,11 +123,11 @@ const Component = ({
           }`}
           variant="contained"
           type="submit"
-          disabled={!isValid || successButton}
+          disabled={!isValid || successButton || hasSubmittedMessage}
           loading={isSendLoading}
           endIcon={successButton ? <CheckIcon /> : <SendIcon />}
         >
-          {successButton ? "Message Sent" : "Send Message"}
+          {successButton ? "Message Sent" : "Submit Message"}
         </Button>
       </Container>
     </form>
