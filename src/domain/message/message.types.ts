@@ -1,6 +1,6 @@
 import type { Timestamp } from "firebase/firestore";
 
-interface IMessage {
+interface Message {
   id: string;
   name: string;
   message: string;
@@ -9,10 +9,10 @@ interface IMessage {
   createdAt: Timestamp;
 }
 
-interface ICreateMessageInput {
+interface CreateMessageInput {
   name: string;
   message: string;
   email?: string;
 }
 
-export type { IMessage, ICreateMessageInput };
+export type { Message, CreateMessageInput };

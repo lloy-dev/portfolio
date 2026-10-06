@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Skeleton } from "@mui/material";
-import type { IProjectGalleryItem } from "@domain";
+import type { ProjectGalleryItem } from "@domain";
 import { Previewer } from "@components";
 import { Container } from "./ProjectDetailsGallery.styles";
 
 type Props = {
   projectTitle?: string;
   coverImg?: string;
-  items?: IProjectGalleryItem[];
+  items?: ProjectGalleryItem[];
   isLoading?: boolean;
 };
 
@@ -17,11 +17,11 @@ const Component = ({
   items,
   isLoading = false,
 }: Props) => {
-  const [previewItem, setPreviewItem] = useState<IProjectGalleryItem | null>(
+  const [previewItem, setPreviewItem] = useState<ProjectGalleryItem | null>(
     null,
   );
 
-  const handleClickItem = (item: IProjectGalleryItem) => () => {
+  const handleClickItem = (item: ProjectGalleryItem) => () => {
     setPreviewItem(item);
   };
 

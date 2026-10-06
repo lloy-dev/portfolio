@@ -4,13 +4,13 @@ import {
   Timestamp,
   type Firestore,
 } from "firebase/firestore";
-import type { ICreateMessageInput } from "@domain";
+import type { CreateMessageInput } from "@domain";
 
-interface IMessageRepository {
-  createMessage(data: ICreateMessageInput): Promise<boolean>;
+interface MessageRepository {
+  createMessage(data: CreateMessageInput): Promise<boolean>;
 }
 
-class MessageRepository implements IMessageRepository {
+class FirestoreMessageRepository implements MessageRepository {
   private COLLECTION_NAME = "messages";
   private firestore: Firestore;
 
@@ -18,7 +18,7 @@ class MessageRepository implements IMessageRepository {
     this.firestore = firestore;
   }
 
-  async createMessage(data: ICreateMessageInput): Promise<boolean> {
+  async createMessage(data: CreateMessageInput): Promise<boolean> {
     try {
       await addDoc(collection(this.firestore, this.COLLECTION_NAME), {
         ...data,
@@ -34,5 +34,5 @@ class MessageRepository implements IMessageRepository {
   }
 }
 
-export default MessageRepository;
-export type { IMessageRepository };
+export default FirestoreMessageRepository;
+export type { MessageRepository };

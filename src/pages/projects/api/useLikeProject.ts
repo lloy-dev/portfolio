@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { ILikeProjectInput } from "@domain";
+import type { LikeProjectInput } from "@domain";
 import { useServices } from "@hooks";
 
 const useLikeProject = () => {
@@ -7,7 +7,7 @@ const useLikeProject = () => {
 
   const mutation = useMutation({
     mutationKey: ["likeProject"],
-    mutationFn: (data: ILikeProjectInput) => portfolioService.likeProject(data),
+    mutationFn: (data: LikeProjectInput) => portfolioService.likeProject(data),
   });
 
   return mutation;
