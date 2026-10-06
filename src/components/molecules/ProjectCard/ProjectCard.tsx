@@ -49,17 +49,19 @@ const Component = ({
   const splittedTitle = title?.split(" ") ?? [];
   const titleMoreThan2Words = splittedTitle.length > 1;
 
-  const [isShowLikeTooltip, setIsShowLikeTooltip] = useState(false);
+  const [showLikeTooltip, setShowLikeTooltip] = useState("");
 
   const handleLikeClick = () => {
-    if (onLikeClick) {
+    if (onLikeClick && likes < 999) {
       onLikeClick(id);
-      setIsShowLikeTooltip(true);
+      setShowLikeTooltip("Thanks!");
+    } else if (likes >= 999) {
+      setShowLikeTooltip("No more likes for now, but thanks!");
     }
   };
 
   const handleLikeTooltipClose = () => {
-    setIsShowLikeTooltip(false);
+    setShowLikeTooltip("");
   };
 
   return (
@@ -105,8 +107,8 @@ const Component = ({
           <>
             <Stack className="project-card-like-container">
               <Tooltip
-                open={isShowLikeTooltip}
-                title="Thanks!"
+                open={!!showLikeTooltip}
+                title={showLikeTooltip}
                 placement="top"
                 onClose={handleLikeTooltipClose}
                 leaveDelay={1000}

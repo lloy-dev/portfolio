@@ -107,7 +107,7 @@ const Component = ({
               error={!!errors.message}
               helperText={
                 hasSubmittedMessage
-                  ? "You can only submit a message once."
+                  ? "You can only submit a message once. Thanks!"
                   : errors.message?.message
               }
               rows={3}

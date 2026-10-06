@@ -8,7 +8,32 @@ type Props = {
 };
 
 const Component = ({ header, children }: Props) => {
+  const isLoading = !children;
   const isMarkdown = typeof children === "string";
+
+  const renderedContent = {
+    loading: <Skeleton />,
+    default: children,
+    markdown: (
+      <Markdown
+        components={{
+          p: Typography,
+          a: (props) => (
+            <Link {...props} target="_blank" rel="noopener noreferrer" />
+          ),
+        }}
+      >
+        {children as string}
+      </Markdown>
+    ),
+  };
+  type RenderedContentKeys = keyof typeof renderedContent;
+
+  const getRenderedContentKey = (): RenderedContentKeys => {
+    if (isLoading) return "loading";
+    else if (isMarkdown) return "markdown";
+    else return "default";
+  };
 
   return (
     <Container className={`${isMarkdown ? "section-markdown-container" : ""}`}>
@@ -19,26 +44,7 @@ const Component = ({ header, children }: Props) => {
       >
         {header ? header : <Skeleton />}
       </Typography>
-      {isMarkdown ? (
-        children ? (
-          <Markdown
-            components={{
-              p: Typography,
-              a: (props) => (
-                <Link {...props} target="_blank" rel="noopener noreferrer" />
-              ),
-            }}
-          >
-            {children}
-          </Markdown>
-        ) : (
-          <Skeleton />
-        )
-      ) : children ? (
-        children
-      ) : (
-        <Skeleton />
-      )}
+      {renderedContent[getRenderedContentKey()]}
     </Container>
   );
 };
