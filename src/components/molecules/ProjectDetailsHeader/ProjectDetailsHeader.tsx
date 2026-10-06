@@ -38,11 +38,16 @@ const Component = ({
           <Skeleton variant="rectangular" width="100%" />
         ) : (
           links && (
-            <Stack direction="row" gap="28px" flexWrap="wrap">
+            <Stack
+              className="project-header-links"
+              direction="row"
+              flexWrap="wrap"
+            >
               {links?.map((link, index) => (
                 <Button
                   key={index}
-                  variant={index === 0 ? "contained" : "text"}
+                  variant={index === 0 ? "contained" : "outlined"}
+                  color={index === 0 ? "primary" : "secondary"}
                   onClick={buttonAction({
                     url: link.url,
                     isExternal: link.isExternal,
