@@ -87,12 +87,20 @@ interface Project {
 }
 
 interface PortfolioFeaturedItems {
+  experience?: Experience;
   projects: Project[];
 }
 
 interface PortfolioExperienceItems {
   skillSets: SkillSet[];
   experiences: Experience[];
+}
+
+interface GetPortfolioExperienceItemsInput {
+  portfolioId: string;
+  filters?: {
+    limitCount?: number;
+  };
 }
 
 interface GetPortfolioProjectsInput {
@@ -125,6 +133,7 @@ export type {
   ProjectGallery,
   PortfolioFeaturedItems,
   PortfolioExperienceItems,
+  GetPortfolioExperienceItemsInput,
   GetPortfolioProjectsInput,
   LikeProjectInput,
   GetProjectDetailsByIdInput,

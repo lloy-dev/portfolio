@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { HomeLayout, FeaturedProjects, Section } from "@components";
+import {
+  HomeLayout,
+  FeaturedProjects,
+  Section,
+  LatestExperience,
+} from "@components";
 import { NAV_PATHS, STRG_LIKED_PROJECTS } from "@constants";
 import { tagNameToTagPillProps } from "@utils";
 import useLikeProject from "../projects/api/useLikeProject";
@@ -72,7 +77,12 @@ const HomePage = () => {
     }
   };
 
-  const handleSeeMoreClick = () => {
+  const handeSeeMoreExperienceClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate(NAV_PATHS.EXPERIENCE.BASE);
+  };
+
+  const handleSeeMoreProjectsClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     navigate(NAV_PATHS.PROJECTS.BASE);
   };
@@ -85,6 +95,10 @@ const HomePage = () => {
   return (
     <HomeLayout userDetails={userDetails} menuActiveItem="home">
       <Section header="About">{portfolioDetailsData?.description}</Section>
+      <LatestExperience
+        experience={featuredItemsData?.experience}
+        onSeeMoreClick={handeSeeMoreExperienceClick}
+      />
       <FeaturedProjects
         projects={
           featuredItemsNotReady
@@ -102,7 +116,7 @@ const HomePage = () => {
                 };
               })
         }
-        onSeeMoreClick={handleSeeMoreClick}
+        onSeeMoreClick={handleSeeMoreProjectsClick}
       />
     </HomeLayout>
   );

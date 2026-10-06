@@ -39,6 +39,13 @@ class DefaultPortfolioService implements PortfolioService {
   async getPortfolioFeaturedItems(
     portfolioId: string,
   ): Promise<PortfolioFeaturedItems> {
+    const experiences = await this.PortfolioRepository.getPortfolioExperiences({
+      filters: { limitCount: 1 },
+      portfolioId,
+    });
+
+    const experience = experiences.length > 0 ? experiences[0] : undefined;
+
     const projects = await this.PortfolioRepository.getPortfolioProjects({
       filters: {
         isFeatured: true,
@@ -49,6 +56,7 @@ class DefaultPortfolioService implements PortfolioService {
     });
 
     return {
+      experience,
       projects,
     };
   }
@@ -56,8 +64,9 @@ class DefaultPortfolioService implements PortfolioService {
   async getPortfolioExperienceItems(
     portfolioId: string,
   ): Promise<PortfolioExperienceItems> {
-    const experiences =
-      await this.PortfolioRepository.getPortfolioExperiences(portfolioId);
+    const experiences = await this.PortfolioRepository.getPortfolioExperiences({
+      portfolioId,
+    });
     const remappedExperiences = experiences.map((experience) => {
       const sortedPositions = experience.positions.sort(
         (a, b) =>
