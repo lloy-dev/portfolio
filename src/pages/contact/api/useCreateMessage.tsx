@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { useServices } from "@hooks";
-import type { ICreateMessageInput } from "@domain";
+import type { CreateMessageInput } from "@domain";
 
 const useCreateMessage = () => {
   const { messageService } = useServices();
 
   const mutation = useMutation({
     mutationKey: ["createMessage"],
-    mutationFn: (data: ICreateMessageInput) =>
+    mutationFn: (data: CreateMessageInput) =>
       messageService.createMessage(data),
   });
 

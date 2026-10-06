@@ -4,13 +4,13 @@ import { Send as SendIcon, Check as CheckIcon } from "@mui/icons-material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@components";
-import type { ICreateMessageInput } from "@domain";
+import type { CreateMessageInput } from "@domain";
 import { Container } from "./ContactForm.styles";
 import { contactFormSchema } from "./ContactForm.validations";
 import { STRG_HAS_SUBMITTED_MESSAGE } from "@constants";
 
 type Props = {
-  onSubmitValid: (data: ICreateMessageInput) => void;
+  onSubmitValid: (data: CreateMessageInput) => void;
   sendStatus: "error" | "success" | "idle" | "pending";
   isSendLoading?: boolean;
 };

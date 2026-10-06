@@ -1,6 +1,6 @@
 import type { OrderByDirection, Timestamp } from "firebase/firestore";
 
-interface IPortfolio {
+interface Portfolio {
   id: string;
   name: string;
   title: string;
@@ -19,13 +19,13 @@ interface IPortfolio {
   location?: string;
 }
 
-interface ISkillSet {
+interface SkillSet {
   id: string;
   title: string;
   skills: string[];
 }
 
-interface IPosition {
+interface Position {
   title: string;
   location: string;
   description: string;
@@ -33,13 +33,13 @@ interface IPosition {
   endDate?: Timestamp;
 }
 
-interface IExperience {
+interface Experience {
   id: string;
   companyName: string;
-  positions: IPosition[];
+  positions: Position[];
 }
 
-interface IProjectDetail {
+interface ProjectDetail {
   id: string;
   label: string;
   content: string;
@@ -47,20 +47,20 @@ interface IProjectDetail {
   order: number;
 }
 
-interface IProjectGalleryItem {
+interface ProjectGalleryItem {
   label: string;
   src: string;
   type: string;
 }
 
-interface IProjectGallery {
+interface ProjectGallery {
   id: string;
-  items: IProjectGalleryItem[];
+  items: ProjectGalleryItem[];
   type: "gallery";
   order: number;
 }
 
-interface IProjectIframe {
+interface ProjectIframe {
   id: string;
   label: string;
   src: string;
@@ -69,7 +69,7 @@ interface IProjectIframe {
   order: number;
 }
 
-interface IProject {
+interface Project {
   id: string;
   title: string;
   description: string;
@@ -83,19 +83,19 @@ interface IProject {
   }[];
   isFeatured?: boolean;
   startDate: Timestamp;
-  projectDetails?: (IProjectDetail | IProjectGallery | IProjectIframe)[];
+  projectDetails?: (ProjectDetail | ProjectGallery | ProjectIframe)[];
 }
 
-interface IPortfolioFeaturedItems {
-  projects: IProject[];
+interface PortfolioFeaturedItems {
+  projects: Project[];
 }
 
-interface IPortfolioExperienceItems {
-  skillSets: ISkillSet[];
-  experiences: IExperience[];
+interface PortfolioExperienceItems {
+  skillSets: SkillSet[];
+  experiences: Experience[];
 }
 
-interface IGetPortfolioProjectsInput {
+interface GetPortfolioProjectsInput {
   portfolioId: string;
   filters?: {
     isFeatured?: boolean;
@@ -104,28 +104,28 @@ interface IGetPortfolioProjectsInput {
   };
 }
 
-interface ILikeProjectInput {
+interface LikeProjectInput {
   portfolioId: string;
   projectId: string;
 }
 
-interface IGetProjectDetailsByIdInput {
+interface GetProjectDetailsByIdInput {
   portfolioId: string;
   projectId: string;
 }
 
 export type {
-  IPortfolio,
-  ISkillSet,
-  IPosition,
-  IExperience,
-  IProject,
-  IProjectDetail,
-  IProjectGalleryItem,
-  IProjectGallery,
-  IPortfolioFeaturedItems,
-  IPortfolioExperienceItems,
-  IGetPortfolioProjectsInput,
-  ILikeProjectInput,
-  IGetProjectDetailsByIdInput,
+  Portfolio,
+  SkillSet,
+  Position,
+  Experience,
+  Project,
+  ProjectDetail,
+  ProjectGalleryItem,
+  ProjectGallery,
+  PortfolioFeaturedItems,
+  PortfolioExperienceItems,
+  GetPortfolioProjectsInput,
+  LikeProjectInput,
+  GetProjectDetailsByIdInput,
 };

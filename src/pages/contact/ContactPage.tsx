@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, Typography, Link, Tooltip } from "@mui/material";
 import { Email as EmailIcon } from "@mui/icons-material";
 import { CommonLayout, ContactForm } from "@components";
-import type { ICreateMessageInput } from "@domain";
+import type { CreateMessageInput } from "@domain";
 import {
   ContentContainer,
   ContactDetailsContainer,
@@ -25,7 +25,7 @@ const ContactPage = () => {
 
   const email = portfolioDetailsData?.email;
 
-  const handleMessageSubmitValid = (data: ICreateMessageInput) => {
+  const handleMessageSubmitValid = (data: CreateMessageInput) => {
     const { name, email, message } = data;
     createMessageMutate({ name, email, message });
   };

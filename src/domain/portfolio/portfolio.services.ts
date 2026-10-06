@@ -1,36 +1,36 @@
-import type { IPortfolioRepository } from "@infrastructure";
+import type { PortfolioRepository } from "@infrastructure";
 import type {
-  ILikeProjectInput,
-  IProject,
-  IPortfolio,
-  IPortfolioFeaturedItems,
-  IPortfolioExperienceItems,
-  IGetProjectDetailsByIdInput,
+  LikeProjectInput,
+  Project,
+  Portfolio,
+  PortfolioFeaturedItems,
+  PortfolioExperienceItems,
+  GetProjectDetailsByIdInput,
 } from "./portfolio.types";
 
-interface IPortfolioService {
-  getPortfolioDetails(): Promise<IPortfolio | undefined>;
+interface PortfolioService {
+  getPortfolioDetails(): Promise<Portfolio | undefined>;
   getPortfolioFeaturedItems(
     portfolioId: string,
-  ): Promise<IPortfolioFeaturedItems>;
+  ): Promise<PortfolioFeaturedItems>;
   getPortfolioExperienceItems(
     portfolioId: string,
-  ): Promise<IPortfolioExperienceItems>;
-  getPortfolioProjects(portfolioId: string): Promise<IProject[]>;
-  likeProject(data: ILikeProjectInput): Promise<boolean>;
+  ): Promise<PortfolioExperienceItems>;
+  getPortfolioProjects(portfolioId: string): Promise<Project[]>;
+  likeProject(data: LikeProjectInput): Promise<boolean>;
   getProjectDetailsById(
-    data: IGetProjectDetailsByIdInput,
-  ): Promise<IProject | undefined>;
+    data: GetProjectDetailsByIdInput,
+  ): Promise<Project | undefined>;
 }
 
-class PortfolioService implements IPortfolioService {
-  private PortfolioRepository: IPortfolioRepository;
+class DefaultPortfolioService implements PortfolioService {
+  private PortfolioRepository: PortfolioRepository;
 
-  constructor(PortfolioRepository: IPortfolioRepository) {
+  constructor(PortfolioRepository: PortfolioRepository) {
     this.PortfolioRepository = PortfolioRepository;
   }
 
-  async getPortfolioDetails(): Promise<IPortfolio | undefined> {
+  async getPortfolioDetails(): Promise<Portfolio | undefined> {
     const portfolio = await this.PortfolioRepository.getPortfolioById("v3");
 
     if (portfolio) return portfolio;
@@ -38,7 +38,7 @@ class PortfolioService implements IPortfolioService {
 
   async getPortfolioFeaturedItems(
     portfolioId: string,
-  ): Promise<IPortfolioFeaturedItems> {
+  ): Promise<PortfolioFeaturedItems> {
     const projects = await this.PortfolioRepository.getPortfolioProjects({
       filters: {
         isFeatured: true,
@@ -55,7 +55,7 @@ class PortfolioService implements IPortfolioService {
 
   async getPortfolioExperienceItems(
     portfolioId: string,
-  ): Promise<IPortfolioExperienceItems> {
+  ): Promise<PortfolioExperienceItems> {
     const experiences =
       await this.PortfolioRepository.getPortfolioExperiences(portfolioId);
     const remappedExperiences = experiences.map((experience) => {
@@ -78,7 +78,7 @@ class PortfolioService implements IPortfolioService {
     };
   }
 
-  getPortfolioProjects(portfolioId: string): Promise<IProject[]> {
+  getPortfolioProjects(portfolioId: string): Promise<Project[]> {
     return this.PortfolioRepository.getPortfolioProjects({
       filters: {
         orderBy: "startDate",
@@ -88,16 +88,16 @@ class PortfolioService implements IPortfolioService {
     });
   }
 
-  likeProject(data: ILikeProjectInput): Promise<boolean> {
+  likeProject(data: LikeProjectInput): Promise<boolean> {
     return this.PortfolioRepository.likeProject(data);
   }
 
   getProjectDetailsById(
-    data: IGetProjectDetailsByIdInput,
-  ): Promise<IProject | undefined> {
+    data: GetProjectDetailsByIdInput,
+  ): Promise<Project | undefined> {
     return this.PortfolioRepository.getProjectDetailsById(data);
   }
 }
 
-export default PortfolioService;
-export type { IPortfolioService };
+export default DefaultPortfolioService;
+export type { PortfolioService };

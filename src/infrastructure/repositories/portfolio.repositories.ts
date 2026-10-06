@@ -12,29 +12,29 @@ import {
   getDoc,
 } from "firebase/firestore";
 import {
-  type IExperience,
-  type IProject,
-  type ISkillSet,
-  type IPortfolio,
-  type IGetPortfolioProjectsInput,
-  type ILikeProjectInput,
-  type IGetProjectDetailsByIdInput,
-  type IProjectDetail,
+  type Experience,
+  type Project,
+  type SkillSet,
+  type Portfolio,
+  type GetPortfolioProjectsInput,
+  type LikeProjectInput,
+  type GetProjectDetailsByIdInput,
+  type ProjectDetail,
 } from "@domain";
 
-interface IPortfolioRepository {
-  getFirstPortfolio(): Promise<IPortfolio | undefined>;
-  getPortfolioById(id: string): Promise<IPortfolio | undefined>;
-  getPortfolioSkillSets(portfolioId: string): Promise<ISkillSet[]>;
-  getPortfolioExperiences(portfolioId: string): Promise<IExperience[]>;
-  getPortfolioProjects(data: IGetPortfolioProjectsInput): Promise<IProject[]>;
-  likeProject(data: ILikeProjectInput): Promise<boolean>;
+interface PortfolioRepository {
+  getFirstPortfolio(): Promise<Portfolio | undefined>;
+  getPortfolioById(id: string): Promise<Portfolio | undefined>;
+  getPortfolioSkillSets(portfolioId: string): Promise<SkillSet[]>;
+  getPortfolioExperiences(portfolioId: string): Promise<Experience[]>;
+  getPortfolioProjects(data: GetPortfolioProjectsInput): Promise<Project[]>;
+  likeProject(data: LikeProjectInput): Promise<boolean>;
   getProjectDetailsById(
-    data: IGetProjectDetailsByIdInput,
-  ): Promise<IProject | undefined>;
+    data: GetProjectDetailsByIdInput,
+  ): Promise<Project | undefined>;
 }
 
-class PortfolioRepository implements IPortfolioRepository {
+class FirestorePortfolioRepository implements PortfolioRepository {
   private COLLECTION_NAME = "portfolios";
   private SUB_COLLECTION_SKILL_SETS = "skillSets";
   private SUB_COLLECTION_EXPERIENCES = "experiences";
@@ -46,7 +46,7 @@ class PortfolioRepository implements IPortfolioRepository {
     this.firestore = firestore;
   }
 
-  async getFirstPortfolio(): Promise<IPortfolio | undefined> {
+  async getFirstPortfolio(): Promise<Portfolio | undefined> {
     const portfoliosRef = collection(this.firestore, this.COLLECTION_NAME);
     const portfoliosQ = query(portfoliosRef, limit(1));
     const portfoliosSS = await getDocs(portfoliosQ);
@@ -57,11 +57,11 @@ class PortfolioRepository implements IPortfolioRepository {
       return {
         id: portfolioDoc.id,
         ...portfolioDoc.data(),
-      } as IPortfolio;
+      } as Portfolio;
     }
   }
 
-  async getPortfolioById(id: string): Promise<IPortfolio | undefined> {
+  async getPortfolioById(id: string): Promise<Portfolio | undefined> {
     try {
       const portfolioRef = doc(this.firestore, this.COLLECTION_NAME, id);
       const portfolioDoc = await getDoc(portfolioRef);
@@ -69,14 +69,14 @@ class PortfolioRepository implements IPortfolioRepository {
       return {
         id: portfolioDoc.id,
         ...portfolioDoc.data(),
-      } as IPortfolio;
+      } as Portfolio;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return undefined;
     }
   }
 
-  async getPortfolioSkillSets(portfolioId: string): Promise<ISkillSet[]> {
+  async getPortfolioSkillSets(portfolioId: string): Promise<SkillSet[]> {
     try {
       const skillSetsRef = collection(
         this.firestore,
@@ -87,11 +87,11 @@ class PortfolioRepository implements IPortfolioRepository {
       const skillSetsQ = query(skillSetsRef, orderBy("order", "asc"));
       const skillSetsSS = await getDocs(skillSetsQ);
 
-      const skillSets: ISkillSet[] = skillSetsSS.docs.map((skillSetDoc) => {
+      const skillSets: SkillSet[] = skillSetsSS.docs.map((skillSetDoc) => {
         return {
           id: skillSetDoc.id,
           ...skillSetDoc.data(),
-        } as ISkillSet;
+        } as SkillSet;
       });
 
       return skillSets;
@@ -101,7 +101,7 @@ class PortfolioRepository implements IPortfolioRepository {
     }
   }
 
-  async getPortfolioExperiences(portfolioId: string): Promise<IExperience[]> {
+  async getPortfolioExperiences(portfolioId: string): Promise<Experience[]> {
     try {
       const experiencesRef = collection(
         this.firestore,
@@ -112,12 +112,12 @@ class PortfolioRepository implements IPortfolioRepository {
       const experiencesQ = query(experiencesRef, orderBy("startDate", "desc"));
       const experiencesSS = await getDocs(experiencesQ);
 
-      const experiences: IExperience[] = experiencesSS.docs.map(
+      const experiences: Experience[] = experiencesSS.docs.map(
         (experienceDoc) => {
           return {
             id: experienceDoc.id,
             ...experienceDoc.data(),
-          } as IExperience;
+          } as Experience;
         },
       );
 
@@ -129,8 +129,8 @@ class PortfolioRepository implements IPortfolioRepository {
   }
 
   async getPortfolioProjects(
-    data: IGetPortfolioProjectsInput,
-  ): Promise<IProject[]> {
+    data: GetPortfolioProjectsInput,
+  ): Promise<Project[]> {
     try {
       const { portfolioId, filters } = data;
       const projectsRef = collection(
@@ -151,11 +151,11 @@ class PortfolioRepository implements IPortfolioRepository {
       const projectsQ = query(projectsRef, ...projectConstraints);
       const projectsSS = await getDocs(projectsQ);
 
-      const projects: IProject[] = projectsSS.docs.map((projectDoc) => {
+      const projects: Project[] = projectsSS.docs.map((projectDoc) => {
         return {
           id: projectDoc.id,
           ...projectDoc.data(),
-        } as IProject;
+        } as Project;
       });
 
       return projects;
@@ -165,7 +165,7 @@ class PortfolioRepository implements IPortfolioRepository {
     }
   }
 
-  async likeProject(data: ILikeProjectInput): Promise<boolean> {
+  async likeProject(data: LikeProjectInput): Promise<boolean> {
     try {
       const { portfolioId, projectId } = data;
       const projectDocRef = doc(
@@ -186,8 +186,8 @@ class PortfolioRepository implements IPortfolioRepository {
   }
 
   async getProjectDetailsById(
-    data: IGetProjectDetailsByIdInput,
-  ): Promise<IProject | undefined> {
+    data: GetProjectDetailsByIdInput,
+  ): Promise<Project | undefined> {
     try {
       const { portfolioId, projectId } = data;
 
@@ -211,12 +211,12 @@ class PortfolioRepository implements IPortfolioRepository {
       const projectDetailsQ = query(projectDetailsRef, orderBy("order", "asc"));
       const projectDetailsSS = await getDocs(projectDetailsQ);
 
-      const projectDetails: IProjectDetail[] = projectDetailsSS.docs.map(
+      const projectDetails: ProjectDetail[] = projectDetailsSS.docs.map(
         (projectDetailDoc) => {
           return {
             id: projectDetailDoc.id,
             ...projectDetailDoc.data(),
-          } as IProjectDetail;
+          } as ProjectDetail;
         },
       );
 
@@ -224,7 +224,7 @@ class PortfolioRepository implements IPortfolioRepository {
         id: projectDoc.id,
         ...projectDoc.data(),
         projectDetails,
-      } as IProject;
+      } as Project;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return undefined;
@@ -232,5 +232,5 @@ class PortfolioRepository implements IPortfolioRepository {
   }
 }
 
-export default PortfolioRepository;
-export type { IPortfolioRepository };
+export default FirestorePortfolioRepository;
+export type { PortfolioRepository };

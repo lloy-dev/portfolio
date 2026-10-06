@@ -1,21 +1,21 @@
-import type { ICreateMessageInput } from "@domain";
-import type { IMessageRepository } from "@infrastructure";
+import type { CreateMessageInput } from "@domain";
+import type { MessageRepository } from "@infrastructure";
 
-interface IMessageService {
-  createMessage(data: ICreateMessageInput): Promise<boolean>;
+interface MessageService {
+  createMessage(data: CreateMessageInput): Promise<boolean>;
 }
 
-class MessageService implements IMessageService {
-  private messageRepository: IMessageRepository;
+class DefaultMessageService implements MessageService {
+  private messageRepository: MessageRepository;
 
-  constructor(messageRepository: IMessageRepository) {
+  constructor(messageRepository: MessageRepository) {
     this.messageRepository = messageRepository;
   }
 
-  createMessage(data: ICreateMessageInput): Promise<boolean> {
+  createMessage(data: CreateMessageInput): Promise<boolean> {
     return this.messageRepository.createMessage(data);
   }
 }
 
-export default MessageService;
-export type { IMessageService };
+export default DefaultMessageService;
+export type { MessageService };
