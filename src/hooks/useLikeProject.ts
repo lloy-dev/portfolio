@@ -5,12 +5,12 @@ import { useServices } from "@hooks";
 const useLikeProject = () => {
   const { portfolioService } = useServices();
 
-  const mutation = useMutation({
+  const likeProjectMutation = useMutation({
     mutationKey: ["likeProject"],
     mutationFn: (data: LikeProjectInput) => portfolioService.likeProject(data),
   });
 
-  return mutation;
+  return { likeProjectMutation };
 };
 
 export default useLikeProject;

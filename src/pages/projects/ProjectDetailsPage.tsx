@@ -1,24 +1,18 @@
-import { useParams } from "react-router";
+import moment from "moment";
 import {
   CommonLayout,
   ProjectDetailsGallery,
   ProjectDetailsHeader,
   Section,
 } from "@components";
-import useGetProjectDetailsById from "./api/useGetProjectDetailsById";
 import { tagNameToTagPillProps } from "@utils";
-import moment from "moment";
+import useProjectDetailsPage from "./useProjectDetailsPage";
 
 const ALLOWED_FULLSCREEN_TYPES = ["pico-8-embed"];
 
 const ProjectDetailsPage = () => {
-  const { projectId } = useParams();
-
-  const { portfolioDetailsQuery, projectsDetailsQuery } =
-    useGetProjectDetailsById(projectId);
-  const { data: portfolioDetailsData } = portfolioDetailsQuery;
-  const { data: projectDetailsData, isPending: projectDetailsIsPending } =
-    projectsDetailsQuery;
+  const { portfolioDetailsData, projectDetailsData, projectDetailsIsPending } =
+    useProjectDetailsPage();
 
   return (
     <CommonLayout

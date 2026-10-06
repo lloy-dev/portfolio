@@ -1,16 +1,10 @@
 import { HomeLayout, Experience, SkillSet } from "@components";
 import { skillNameToSkillCardProps } from "@utils";
-import useGetExperience from "./api/useGetExperience";
+import useExperiencePage from "./useExperiencePage";
 
 const ExperiencePage = () => {
-  const { portfolioDetailsQuery, experienceItemsQuery, userDetails } =
-    useGetExperience();
-  const { isPending: portfolioDetailsPending } = portfolioDetailsQuery;
-  const { data: experienceItemsData, isPending: experienceItemsIsPending } =
-    experienceItemsQuery;
-
-  const experienceItemsNotReady =
-    portfolioDetailsPending || experienceItemsIsPending;
+  const { userDetails, experienceItemsData, experienceItemsNotReady } =
+    useExperiencePage();
 
   return (
     <HomeLayout
