@@ -16,6 +16,7 @@ import {
   type Project,
   type SkillSet,
   type Portfolio,
+  type GetPortfolioExperienceItemsInput,
   type GetPortfolioProjectsInput,
   type LikeProjectInput,
   type GetProjectDetailsByIdInput,
@@ -26,7 +27,9 @@ interface PortfolioRepository {
   getFirstPortfolio(): Promise<Portfolio | undefined>;
   getPortfolioById(id: string): Promise<Portfolio | undefined>;
   getPortfolioSkillSets(portfolioId: string): Promise<SkillSet[]>;
-  getPortfolioExperiences(portfolioId: string): Promise<Experience[]>;
+  getPortfolioExperiences(
+    data: GetPortfolioExperienceItemsInput,
+  ): Promise<Experience[]>;
   getPortfolioProjects(data: GetPortfolioProjectsInput): Promise<Project[]>;
   likeProject(data: LikeProjectInput): Promise<boolean>;
   getProjectDetailsById(
@@ -101,15 +104,27 @@ class FirestorePortfolioRepository implements PortfolioRepository {
     }
   }
 
-  async getPortfolioExperiences(portfolioId: string): Promise<Experience[]> {
+  async getPortfolioExperiences(
+    data: GetPortfolioExperienceItemsInput,
+  ): Promise<Experience[]> {
     try {
+      const { portfolioId, filters } = data;
       const experiencesRef = collection(
         this.firestore,
         this.COLLECTION_NAME,
         portfolioId,
         this.SUB_COLLECTION_EXPERIENCES,
       );
-      const experiencesQ = query(experiencesRef, orderBy("startDate", "desc"));
+
+      const experienceConstraints = [];
+      if (filters?.limitCount)
+        experienceConstraints.push(limit(filters.limitCount));
+
+      const experiencesQ = query(
+        experiencesRef,
+        orderBy("startDate", "desc"),
+        ...experienceConstraints,
+      );
       const experiencesSS = await getDocs(experiencesQ);
 
       const experiences: Experience[] = experiencesSS.docs.map(

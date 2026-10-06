@@ -26,6 +26,7 @@ export { default as SkillSet } from "./organisms/SkillSet/SkillSet";
 export { default as ContactForm } from "./organisms/ContactForm/ContactForm";
 export { default as UserInfo } from "./organisms/UserInfo/UserInfo";
 export type { Props as UserInfoProps } from "./organisms/UserInfo/UserInfo";
+export { default as LatestExperience } from "./organisms/LatestExperience/LatestExperience";
 
 // Templates
 export { default as CommonLayout } from "./templates/CommonLayout/CommonLayout";
