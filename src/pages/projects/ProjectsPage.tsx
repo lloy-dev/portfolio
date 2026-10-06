@@ -1,79 +1,17 @@
-import { useState } from "react";
 import { CommonLayout, ProjectCard } from "@components";
 import { tagNameToTagPillProps } from "@utils";
-import { STRG_LIKED_PROJECTS } from "@constants";
-import useGetProjects from "./api/useGetProjects";
-import useLikeProject from "./api/useLikeProject";
+import useProjectsPage from "./useProjectsPage";
 import { ProjectsContainer } from "./ProjectsPage.styles";
-import { useNavigate } from "react-router";
 
 const ProjectsPage = () => {
-  const navigate = useNavigate();
-
-  const [likedProjects, setLikedProjects] = useState<string[]>(() => {
-    const cachedLikedProjects = localStorage.getItem(STRG_LIKED_PROJECTS);
-    if (cachedLikedProjects) {
-      const parsed: string[] = JSON.parse(cachedLikedProjects);
-      return parsed;
-    }
-    return [];
-  });
-
-  const { portfolioDetailsQuery, projectsQuery } = useGetProjects();
-  const { data: portfolioDetailsData, isPending: portfolioDetailsPending } =
-    portfolioDetailsQuery;
   const {
-    data: projetsData,
-    isPending: projectsIsPending,
-    refetch: projectsRefetch,
-  } = projectsQuery;
-
-  const projectsNotReady = portfolioDetailsPending || projectsIsPending;
-
-  const { mutate: likeProjectMutate } = useLikeProject();
-
-  const handleLikeClick = (id: string) => {
-    if (portfolioDetailsData) {
-      setLikedProjects((prev) => {
-        const newLiked = [...prev, id];
-        localStorage.setItem(STRG_LIKED_PROJECTS, JSON.stringify(newLiked));
-        return newLiked;
-      });
-      likeProjectMutate(
-        { portfolioId: portfolioDetailsData?.id, projectId: id },
-        {
-          onSuccess: (res) => {
-            if (res) {
-              projectsRefetch();
-            } else {
-              setLikedProjects((prev) => {
-                const newLiked = [...prev].filter((e) => e !== id);
-                localStorage.setItem(
-                  STRG_LIKED_PROJECTS,
-                  JSON.stringify(newLiked),
-                );
-                return newLiked;
-              });
-            }
-          },
-          onError: () => {
-            setLikedProjects((prev) => {
-              const newLiked = [...prev].filter((e) => e !== id);
-              localStorage.setItem(
-                STRG_LIKED_PROJECTS,
-                JSON.stringify(newLiked),
-              );
-              return newLiked;
-            });
-          },
-        },
-      );
-    }
-  };
-
-  const handleProjectActionClick = (id: string) => () => {
-    navigate(id);
-  };
+    likedProjects,
+    portfolioDetailsData,
+    projetsData,
+    projectsNotReady,
+    handleLikeClick,
+    handleProjectActionClick,
+  } = useProjectsPage();
 
   return (
     <CommonLayout

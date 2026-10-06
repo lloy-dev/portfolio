@@ -79,7 +79,7 @@ const Component = ({ onSeeMoreClick, experience }: Props) => {
           onClick={onSeeMoreClick}
           endIcon={<OutboundIcon />}
         >
-          See More
+          Read More
         </Button>
       </ExperiencesContainer>
     </Section>

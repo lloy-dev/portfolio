@@ -1,103 +1,31 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
 import {
   HomeLayout,
   FeaturedProjects,
   Section,
   LatestExperience,
 } from "@components";
-import { NAV_PATHS, STRG_LIKED_PROJECTS } from "@constants";
 import { tagNameToTagPillProps } from "@utils";
-import useLikeProject from "../projects/api/useLikeProject";
-import useGetHome from "./api/useGetHome";
+import useHomePage from "./useHomePage";
 
 const HomePage = () => {
-  const navigate = useNavigate();
-
-  const [likedProjects, setLikedProjects] = useState<string[]>(() => {
-    const cachedLikedProjects = localStorage.getItem(STRG_LIKED_PROJECTS);
-    if (cachedLikedProjects) {
-      const parsed: string[] = JSON.parse(cachedLikedProjects);
-      return parsed;
-    }
-    return [];
-  });
-
-  const { portfolioDetailsQuery, featuredItemsQuery, userDetails } =
-    useGetHome();
-  const { data: portfolioDetailsData, isPending: portfolioDetailsPending } =
-    portfolioDetailsQuery;
   const {
-    data: featuredItemsData,
-    isPending: featuredItemsIsPending,
-    refetch: featuredItemsRefetch,
-  } = featuredItemsQuery;
-
-  const featuredItemsNotReady =
-    portfolioDetailsPending || featuredItemsIsPending;
-
-  const { mutate: likeProjectMutate } = useLikeProject();
-
-  const handleLikeClick = (id: string) => {
-    if (portfolioDetailsData) {
-      setLikedProjects((prev) => {
-        const newLiked = [...prev, id];
-        localStorage.setItem(STRG_LIKED_PROJECTS, JSON.stringify(newLiked));
-        return newLiked;
-      });
-      likeProjectMutate(
-        { portfolioId: portfolioDetailsData?.id, projectId: id },
-        {
-          onSuccess: (res) => {
-            if (res) {
-              featuredItemsRefetch();
-            } else {
-              setLikedProjects((prev) => {
-                const newLiked = [...prev].filter((e) => e !== id);
-                localStorage.setItem(
-                  STRG_LIKED_PROJECTS,
-                  JSON.stringify(newLiked),
-                );
-                return newLiked;
-              });
-            }
-          },
-          onError: () => {
-            setLikedProjects((prev) => {
-              const newLiked = [...prev].filter((e) => e !== id);
-              localStorage.setItem(
-                STRG_LIKED_PROJECTS,
-                JSON.stringify(newLiked),
-              );
-              return newLiked;
-            });
-          },
-        },
-      );
-    }
-  };
-
-  const handeSeeMoreExperienceClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(NAV_PATHS.EXPERIENCE.BASE);
-  };
-
-  const handleSeeMoreProjectsClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(NAV_PATHS.PROJECTS.BASE);
-  };
-
-  const handleProjectActionClick = (id: string) => () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`${NAV_PATHS.PROJECTS.BASE}/${id}`);
-  };
+    likedProjects,
+    userDetails,
+    portfolioDetailsData,
+    featuredItemsData,
+    featuredItemsNotReady,
+    handleLikeClick,
+    handleSeeMoreExperienceClick,
+    handleSeeMoreProjectsClick,
+    handleProjectActionClick,
+  } = useHomePage();
 
   return (
     <HomeLayout userDetails={userDetails} menuActiveItem="home">
       <Section header="About">{portfolioDetailsData?.description}</Section>
       <LatestExperience
         experience={featuredItemsData?.experience}
-        onSeeMoreClick={handeSeeMoreExperienceClick}
+        onSeeMoreClick={handleSeeMoreExperienceClick}
       />
       <FeaturedProjects
         projects={

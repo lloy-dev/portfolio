@@ -1,47 +1,26 @@
-import { useState } from "react";
 import { Card, CardContent, Typography, Link, Tooltip } from "@mui/material";
 import { Email as EmailIcon } from "@mui/icons-material";
 import { CommonLayout, ContactForm } from "@components";
-import type { CreateMessageInput } from "@domain";
 import {
   ContentContainer,
   ContactDetailsContainer,
 } from "./ContactPage.styles";
-import useGetContact from "./api/useGetContact";
-import useCreateMessage from "./api/useCreateMessage";
+import useContactPage from "./useContactPage";
 
 const ContactPage = () => {
-  const [isShowEmail, setIsShowEmail] = useState(false);
-  const [isShowEmailTooltip, setIsShowEmailTooltip] = useState(false);
-
-  const { portfolioDetailsQuery } = useGetContact();
-  const { data: portfolioDetailsData, isPending: portfolioDetailsIsPending } =
-    portfolioDetailsQuery;
   const {
-    mutate: createMessageMutate,
-    isPending: isCreateMessagePending,
-    status: createMessageStatus,
-  } = useCreateMessage();
-
-  const email = portfolioDetailsData?.email;
-
-  const handleMessageSubmitValid = (data: CreateMessageInput) => {
-    const { name, email, message } = data;
-    createMessageMutate({ name, email, message });
-  };
-
-  const handleClickEmail = () => {
-    if (email) {
-      navigator.clipboard.writeText(email);
-      setIsShowEmailTooltip(true);
-    }
-  };
-
-  const handleCloseEmailTooltip = () => {
-    setTimeout(() => {
-      setIsShowEmailTooltip(false);
-    }, 200);
-  };
+    isShowEmail,
+    setIsShowEmail,
+    isShowEmailTooltip,
+    portfolioDetailsData,
+    portfolioDetailsIsPending,
+    createMessageIsPending,
+    createMessageStatus,
+    email,
+    handleMessageSubmitValid,
+    handleClickEmail,
+    handleCloseEmailTooltip,
+  } = useContactPage();
 
   return (
     <CommonLayout
@@ -54,7 +33,7 @@ const ContactPage = () => {
           <CardContent>
             <ContactForm
               onSubmitValid={handleMessageSubmitValid}
-              isSendLoading={isCreateMessagePending}
+              isSendLoading={createMessageIsPending}
               sendStatus={createMessageStatus}
             />
             <ContactDetailsContainer>
