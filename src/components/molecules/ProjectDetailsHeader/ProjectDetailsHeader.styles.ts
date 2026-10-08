@@ -35,6 +35,15 @@ const Container = styled(Box)(({ theme }) => ({
 
   ".project-header-links": {
     gap: 10,
+
+    ".MuiButton-textSecondary, .MuiButton-outlinedSecondary": {
+      color: theme.palette.primary.light,
+    },
+
+    ".MuiButton-containedPrimary": {
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.primary.light,
+    },
   },
 
   ".MuiButtonBase-root.MuiButton-root:first-of-type": {
