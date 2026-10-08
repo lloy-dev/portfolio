@@ -46,7 +46,7 @@ const Component = ({
               {links?.map((link, index) => (
                 <Button
                   key={index}
-                  variant={index === 0 ? "contained" : "outlined"}
+                  variant={index === 0 ? "contained" : "text"}
                   color={index === 0 ? "primary" : "secondary"}
                   onClick={buttonAction({
                     url: link.url,
