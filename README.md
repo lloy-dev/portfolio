@@ -1,6 +1,19 @@
-# Portfolio React App
+<h1 align="center">Portfolio</h1>
 
-Welcome to the souce code of my portfolio website!
+<h3 align="center">A dynamic portfolio website to showcase projects, skills and experience.</h3>
+
+<p align="center">
+  <a href="https://github.com/lloy-dev/portfolio/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/lloy-dev/portfolio?style=for-the-badge&label=Release"></a>
+  <a href="https://www.figma.com/design/RQCYf7U8FfqjJGFWUtd2IS/Portfolio?node-id=9656-2380&t=q6iQTBMSb4Hzh8wf-4"><img alt="Figma" src="https://img.shields.io/badge/Figma-333333?style=for-the-badge&logo=figma"></a>
+</p>
+
+<p align="center">
+  <img alt="React Version" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Flloy-dev%2Fportfolio%2Fraw%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=%24.dependencies.react&style=flat-square&logo=react&label=React">
+  <img alt="Storybook Version" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Flloy-dev%2Fportfolio%2Fraw%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=%24.devDependencies.storybook&style=flat-square&logo=storybook&label=Storybook">
+  <img alt="Firebase Version" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Flloy-dev%2Fportfolio%2Fraw%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=%24.dependencies.firebase&style=flat-square&logo=firebase&label=Firebase">
+  <img alt="MUI Version" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Flloy-dev%2Fportfolio%2Fraw%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=%24.dependencies.%40mui%2Fmaterial&style=flat-square&logo=mui&label=MUI">
+
+</p>
 
 <table align="center">
   <tr>
@@ -11,22 +24,11 @@ Welcome to the souce code of my portfolio website!
   </tr>
 </table>
 
-**Figma:** https://www.figma.com/design/RQCYf7U8FfqjJGFWUtd2IS/Portfolio?node-id=9656-2380&t=q6iQTBMSb4Hzh8wf-4
-
 ## Version Notes
 
 - `v2.x.x` uses a slightly different database structure but still uses Firebase Firestore.
 - `v1.x.x` uses Firebase Firestore to display data.
 - `v0.x.x` uses `data.tsx` file to display data.
-
-## Tech Stack/Libraries
-
-- [React + TypeScript + Vite](https://vite.dev/guide)
-- [Firebase](https://firebase.google.com/)
-- [Storybook](https://storybook.js.org)
-- [Material UI](https://mui.com/material-ui)
-- [MomentJS](https://momentjs.com)
-- [Docker](https://www.docker.com)
 
 ## Setup
 
