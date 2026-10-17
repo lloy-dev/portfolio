@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServices } from "@hooks";
+import type { Portfolio, Project } from "portfolio-core";
 
 const useProjectDetailsPage = () => {
   const { projectId } = useParams();
@@ -8,7 +9,8 @@ const useProjectDetailsPage = () => {
 
   const { data: portfolioDetailsData } = useQuery({
     queryKey: ["portfolioDetails"],
-    queryFn: () => portfolioService.getPortfolioDetails(),
+    queryFn: (): Promise<Portfolio | undefined> =>
+      portfolioService.getPortfolioDetails(),
   });
 
   const portfolioId = portfolioDetailsData?.id;
@@ -16,7 +18,7 @@ const useProjectDetailsPage = () => {
   const { data: projectDetailsData, isPending: projectDetailsIsPending } =
     useQuery({
       queryKey: ["projectDetails", portfolioId, projectId],
-      queryFn: () => {
+      queryFn: (): Promise<Project | undefined> | undefined => {
         if (portfolioId && projectId)
           return portfolioService.getProjectDetailsById({
             portfolioId,

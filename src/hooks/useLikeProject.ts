@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { LikeProjectInput } from "@domain";
+import type { LikeProjectInput } from "portfolio-core";
 import { useServices } from "@hooks";
 
 const useLikeProject = () => {

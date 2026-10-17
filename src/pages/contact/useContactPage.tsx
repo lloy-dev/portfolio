@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import type { CreateMessageInput } from "@domain";
+import type { CreateMessageInput } from "portfolio-core";
 import { useGetPortfolioDetails, useServices } from "@hooks";
 
 const useContactPage = () => {

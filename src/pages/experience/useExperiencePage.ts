@@ -1,5 +1,6 @@
-import { useGetPortfolioDetails, useServices } from "@hooks";
 import { useQuery } from "@tanstack/react-query";
+import { useGetPortfolioDetails, useServices } from "@hooks";
+import type { PortfolioExperienceItems } from "portfolio-core";
 
 const useExperiencePage = () => {
   const { portfolioService } = useServices();
@@ -12,7 +13,7 @@ const useExperiencePage = () => {
   const { data: experienceItemsData, isPending: experienceItemsIsPending } =
     useQuery({
       queryKey: ["portfolioExperienceItems", portfolioId],
-      queryFn: () => {
+      queryFn: (): Promise<PortfolioExperienceItems> | null => {
         if (portfolioId)
           return portfolioService.getPortfolioExperienceItems(portfolioId);
         return null;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { NAV_PATHS, STRG_LIKED_PROJECTS } from "@constants";
 import { useGetPortfolioDetails, useLikeProject, useServices } from "@hooks";
+import type { PortfolioFeaturedItems } from "portfolio-core";
 
 const useHomePage = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const useHomePage = () => {
     refetch: featuredItemsRefetch,
   } = useQuery({
     queryKey: ["portfolioFeaturedItems", portfolioId],
-    queryFn: () => {
+    queryFn: (): Promise<PortfolioFeaturedItems> | null => {
       if (portfolioId)
         return portfolioService.getPortfolioFeaturedItems(portfolioId);
       return null;

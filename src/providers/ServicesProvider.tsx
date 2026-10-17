@@ -1,10 +1,11 @@
-import { DefaultMessageService, DefaultPortfolioService } from "@domain";
+import { createContext } from "react";
 import {
-  firebaseFirestore,
+  DefaultMessageService,
+  DefaultPortfolioService,
   FirestoreMessageRepository,
   FirestorePortfolioRepository,
-} from "@infrastructure";
-import { createContext } from "react";
+} from "portfolio-core";
+import { firebaseFirestore } from "@configs";
 
 const portfolioRepository = new FirestorePortfolioRepository(firebaseFirestore);
 const portfolioService = new DefaultPortfolioService(portfolioRepository);
