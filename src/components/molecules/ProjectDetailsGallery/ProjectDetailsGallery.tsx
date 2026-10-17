@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Skeleton } from "@mui/material";
-import type { ProjectGalleryItem } from "@domain";
+import type { ProjectGalleryItem } from "portfolio-core";
 import { Previewer } from "@components";
 import { Container } from "./ProjectDetailsGallery.styles";
 

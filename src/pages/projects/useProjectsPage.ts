@@ -3,6 +3,7 @@ import { useLikeProject, useServices } from "@hooks";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { STRG_LIKED_PROJECTS } from "@constants";
+import type { Project } from "portfolio-core";
 
 const useProjectsPage = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const useProjectsPage = () => {
     refetch: projectsRefetch,
   } = useQuery({
     queryKey: ["portfolioProjects", portfolioId],
-    queryFn: () => {
+    queryFn: (): Promise<Project[]> | undefined => {
       if (portfolioId)
         return portfolioService.getPortfolioProjects(portfolioId);
     },
