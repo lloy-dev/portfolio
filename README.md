@@ -5,6 +5,8 @@
 <p align="center">
   <a href="https://github.com/lloy-dev/portfolio/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/lloy-dev/portfolio?style=for-the-badge&label=Release"></a>
   <a href="https://www.figma.com/design/RQCYf7U8FfqjJGFWUtd2IS/Portfolio?node-id=9656-2380&t=q6iQTBMSb4Hzh8wf-4"><img alt="Figma" src="https://img.shields.io/badge/Figma-333333?style=for-the-badge&logo=figma"></a>
+  <a href="https://github.com/lloy-dev/portfolio-core"><img alt="Portfolio Core" src="https://img.shields.io/badge/Core-v1.0.0-blue?style=for-the-badge"></a>
+  <img alt="Portfolio Dashboard" src="https://img.shields.io/badge/Dashboard-wip-blue?style=for-the-badge">
 </p>
 
 <p align="center">
