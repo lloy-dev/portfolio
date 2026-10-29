@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { GitLabIcon } from ".";
+import { CodebergIcon, GitLabIcon } from ".";
 
 const meta = {
   title: "Components/Atoms/Icons",
@@ -13,6 +13,7 @@ export const Default: Story = {
   render: () => (
     <>
       <GitLabIcon />
+      <CodebergIcon />
     </>
   ),
 };
