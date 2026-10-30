@@ -17,6 +17,7 @@ const useGetPortfolioDetails = () => {
     profilePicUrl: portfolioDetailsData?.profilePicSrc,
     personalSiteUrl: portfolioDetailsData?.personalSite,
     githubUrl: portfolioDetailsData?.github,
+    codebergUrl: portfolioDetailsData?.codeberg,
     gitlabUrl: portfolioDetailsData?.gitlab,
     linkedInUrl: portfolioDetailsData?.linkedin,
     youtubeUrl: portfolioDetailsData?.youtube,
