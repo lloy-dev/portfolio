@@ -21,6 +21,7 @@ export const Default: Story = {
     personalSiteUrl: "",
     githubUrl: "https://github.com",
     gitlabUrl: "https://gitlab.com",
+    codebergUrl: "https://codeberg.org",
     linkedInUrl: "https://linkedin.com",
     youtubeUrl: "https://youtube.com",
     twitterUrl: "",

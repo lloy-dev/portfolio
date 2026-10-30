@@ -12,7 +12,7 @@ import {
   Instagram as InstagramIcon,
   Facebook as FacebookIcon,
 } from "@mui/icons-material";
-import { GitLabIcon } from "@components";
+import { GitLabIcon, CodebergIcon } from "@components";
 import {
   Container,
   ProfilePicContainer,
@@ -29,6 +29,7 @@ type Props = {
   personalSiteUrl?: string;
   githubUrl?: string;
   gitlabUrl?: string;
+  codebergUrl?: string;
   linkedInUrl?: string;
   youtubeUrl?: string;
   twitterUrl?: string;
@@ -46,6 +47,7 @@ const Component = ({
   personalSiteUrl,
   githubUrl,
   gitlabUrl,
+  codebergUrl,
   linkedInUrl,
   youtubeUrl,
   twitterUrl,
@@ -127,6 +129,15 @@ const Component = ({
               rel="noopener noreferrer"
             >
               <GitLabIcon />
+            </LinkIcon>
+          )}
+          {!!codebergUrl && (
+            <LinkIcon
+              href={codebergUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <CodebergIcon />
             </LinkIcon>
           )}
           {!!linkedInUrl && (
